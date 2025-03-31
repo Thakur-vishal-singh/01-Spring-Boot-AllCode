@@ -1,4 +1,5 @@
 package com.example.config;
+    // just using for the testing purpose this class no need to see this code 
 
 public class Test {
     final int value = 10;
@@ -17,7 +18,6 @@ class Example {
     public static void main(String[] args) {
         System.out.println(Test.value1);
     }
-    
     
     
 }
