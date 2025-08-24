@@ -1,0 +1,166 @@
+<!--<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sky Image Viewer</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h1>Select Location</h1>
+    <form action="/get-image" method="post" th:object="${skyImageRequest}">
+        <select th:field="*{location}">
+            <option value="India">India</option>
+            <option value="US">United States</option>
+            <option value="UK">United Kingdom</option>
+        </select>
+        <button type="submit">Get Sky Image</button>
+    </form>
+</body>
+</html>
+
+example 2
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Starry Sky Viewer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <h1>Explore the Night Sky</h1>
+        <form action="/get-image" method="post" th:object="${skyImageRequest}">
+            <label for="location">Select Your Location:</label>
+            <select th:field="*{location}" id="location">
+                <option value="US">United States</option>
+                <option value="UK">United Kingdom</option>
+				<option value="India">India</option>
+                <option value="Australia">Australia</option>
+                <option value="Japan">Japan</option>
+                <option value="Brazil">Brazil</option>
+                <option value="South Africa">South Africa</option>
+            </select>
+            <button type="submit">View the Stars</button>
+        </form>
+        <p style="text-align: center; margin-top: 20px; color: #a8a8ff; font-size: 14px;">
+            View stars and celestial objects from different locations around the world
+        </p>
+    </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Starry Sky Viewer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="stars-container" id="starsContainer"></div>
+    
+    <div class="container">
+        <h1>Explore the Night Sky</h1>
+        <form action="/get-image" method="post" th:object="${skyImageRequest}">
+            <label for="location">Select Your Location:</label>
+            <select th:field="*{location}" id="location">
+                <option value="India">India</option>
+                <option value="US">United States</option>
+                <option value="UK">United Kingdom</option>
+                <option value="Australia">Australia</option>
+                <option value="Japan">Japan</option>
+                <option value="Brazil">Brazil</option>
+                <option value="South Africa">South Africa</option>
+            </select>
+            <button type="submit">View the Stars</button>
+        </form>
+        <p style="text-align: center; margin-top: 20px; color: #a8a8ff; font-size: 14px;">
+            View stars and celestial objects from different locations around the world
+        </p>
+    </div>
+
+    <script>
+        // Create background stars
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const starCount = Math.floor(window.innerWidth / 5); // Responsive star count
+            
+            // Clear existing stars
+            container.innerHTML = '';
+            
+            // Create static background stars
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random position
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                
+                // Random size (small variations)
+                const size = (Math.random() * 2) + 1;
+                
+                star.style.left = `${left}%`;
+                star.style.top = `${top}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random twinkle animation
+                star.style.opacity = (Math.random() * 0.5) + 0.5;
+                star.style.animation = `fall ${(Math.random() * 15) + 10}s linear ${Math.random() * 5}s infinite`;
+                
+                container.appendChild(star);
+            }
+        }
+        
+        // Create shooting stars
+        function createShootingStar() {
+            const container = document.getElementById('starsContainer');
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            
+            // Random position and angle
+            const left = Math.random() * 100;
+            const top = Math.random() * 30; // Start in top third of screen
+            const length = Math.random() * 150 + 50; // Length between 50-200px
+            const angle = Math.random() * 60 - 30; // Angle between -30 and 30 degrees
+            
+            shootingStar.style.left = `${left}%`;
+            shootingStar.style.top = `${top}%`;
+            shootingStar.style.width = `${length}px`;
+            shootingStar.style.transform = `rotate(${angle}deg)`;
+            
+            // Animation timing
+            const duration = Math.random() * 2 + 1; // 1-3 seconds
+            shootingStar.style.transition = `transform ${duration}s linear, opacity ${duration}s linear`;
+            
+            // Add to DOM
+            container.appendChild(shootingStar);
+            
+            // Trigger animation
+            setTimeout(() => {
+                shootingStar.style.opacity = 1;
+                shootingStar.style.transform = `rotate(${angle}deg) translateX(${window.innerWidth}px)`;
+            }, 10);
+            
+            // Remove from DOM after animation
+            setTimeout(() => {
+                shootingStar.remove();
+            }, duration * 1000 + 100);
+        }
+        
+        // Initialize stars
+        window.addEventListener('load', () => {
+            createStars();
+            
+            // Create shooting star every 2-8 seconds
+            setInterval(() => {
+                createShootingStar();
+            }, Math.random() * 6000 + 2000);
+        });
+        
+        // Recreate stars when window is resized
+        window.addEventListener('resize', createStars);
+    </script>
+</body>
+</html>

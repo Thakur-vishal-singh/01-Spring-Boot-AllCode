@@ -1,0 +1,133 @@
+<!--<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sky Image Result</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	</head>
+<body>
+	<h2>your image</h2>
+  <img th:src="@{'/sky-image?location=' + ${location}}" alt="Sky Image" />
+	<a th:href="@{/}">Go Back</a>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Night Sky View</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <h2 th:text="${'Night Sky - ' + location}">Your Night Sky</h2>
+            <img th:src="@{'/sky-image?location=' + ${location}}" alt="Night Sky Image" />
+        </div>
+        <a th:href="@{/}" class="back-link">← Select Another Location</a>
+    </div>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Night Sky View</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="stars-container" id="starsContainer"></div>
+    
+    <div class="container">
+        <div class="image-container">
+            <h2 th:text="${'Night Sky - ' + location}">Your Night Sky</h2>
+            <img th:src="@{'/sky-image?location=' + ${location}}" alt="Night Sky Image" />
+        </div>
+        <a th:href="@{/}" class="back-link">← Select Another Location</a>
+    </div>
+
+    <script>
+        // Create background stars
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const starCount = Math.floor(window.innerWidth / 5); // Responsive star count
+            
+            // Clear existing stars
+            container.innerHTML = '';
+            
+            // Create static background stars
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random position
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                
+                // Random size (small variations)
+                const size = (Math.random() * 2) + 1;
+                
+                star.style.left = `${left}%`;
+                star.style.top = `${top}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random twinkle animation
+                star.style.opacity = (Math.random() * 0.5) + 0.5;
+                star.style.animation = `fall ${(Math.random() * 15) + 10}s linear ${Math.random() * 5}s infinite`;
+                
+                container.appendChild(star);
+            }
+        }
+        
+        // Create shooting stars
+        function createShootingStar() {
+            const container = document.getElementById('starsContainer');
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            
+            // Random position and angle
+            const left = Math.random() * 100;
+            const top = Math.random() * 30; // Start in top third of screen
+            const length = Math.random() * 150 + 50; // Length between 50-200px
+            const angle = Math.random() * 60 - 30; // Angle between -30 and 30 degrees
+            
+            shootingStar.style.left = `${left}%`;
+            shootingStar.style.top = `${top}%`;
+            shootingStar.style.width = `${length}px`;
+            shootingStar.style.transform = `rotate(${angle}deg)`;
+            
+            // Animation timing
+            const duration = Math.random() * 2 + 1; // 1-3 seconds
+            shootingStar.style.transition = `transform ${duration}s linear, opacity ${duration}s linear`;
+            
+            // Add to DOM
+            container.appendChild(shootingStar);
+            
+            // Trigger animation
+            setTimeout(() => {
+                shootingStar.style.opacity = 1;
+                shootingStar.style.transform = `rotate(${angle}deg) translateX(${window.innerWidth}px)`;
+            }, 10);
+            
+            // Remove from DOM after animation
+            setTimeout(() => {
+                shootingStar.remove();
+            }, duration * 1000 + 100);
+        }
+        
+        // Initialize stars
+        window.addEventListener('load', () => {
+            createStars();
+            
+            // Create shooting star every 2-8 seconds
+            setInterval(() => {
+                createShootingStar();
+            }, Math.random() * 6000 + 2000);
+        });
+        
+        // Recreate stars when window is resized
+        window.addEventListener('resize', createStars);
+    </script>
+</body>
+</html>

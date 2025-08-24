@@ -1,11 +1,11 @@
 package com.example;
 
-import com.example.config.AppConfig;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.example.config.AppConfig;
 
 @SpringBootApplication
 public class Application  implements CommandLineRunner{
